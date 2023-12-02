@@ -1,0 +1,12 @@
+version: '3'
+services:
+  ros_container:
+    image: ros:noetic
+    volumes:
+      - ../src:/root/catkin_ws/src
+      - ../docker:/root/docker
+    command: 
+      - bash 
+      - -c 
+      - source /opt/ros/noetic/setup.bash && rosrun test_pkg hello_transmitter.py
+
