@@ -1,12 +1,18 @@
 version: '3'
+
 services:
   ros_container:
     image: ros:noetic
     volumes:
-      - ../src:/root/catkin_ws/src
-      - ../docker:/root/docker
-    command: 
-      - bash 
-      - -c 
-      - source /opt/ros/noetic/setup.bash && rosrun test_pkg hello_transmitter.py
+      - ../src:/root/catkin_ws/src  # Mount local 'src' directory to container's '/root/catkin_ws/src'
+    command:
+      - /bin/bash
+      - -c
+      - |
+        source /opt/ros/noetic/setup.bash && \
+        cd /root/catkin_ws && \
+        catkin_make && \
+        source devel/setup.bash && \
+        roscore &  # Start ROS master in the background
+        rosrun test_pkg hello_transmitter.py
 

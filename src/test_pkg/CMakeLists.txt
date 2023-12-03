@@ -1,15 +1,20 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(test_pkg)
 
-## Find catkin macros and libraries
 find_package(catkin REQUIRED COMPONENTS
   rospy
+  std_msgs
 )
 
-## Catkin specific configuration ##
+catkin_python_setup()
+
 catkin_package()
 
-## Specify additional locations of header files
 include_directories(
   ${catkin_INCLUDE_DIRS}
+)
+
+install(PROGRAMS
+  scripts/hello_transmitter.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
