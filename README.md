@@ -88,8 +88,9 @@ This is how the file should look like:
 version: '3'
 
 services:
-  ros_container:
+  ros_container:  
     image: ros:noetic
+    container_name: my_ros_container
     volumes:
       - ../src:/root/catkin_ws/src  # Mount local 'src' directory to container's '/root/catkin_ws/src'
     command:
@@ -97,15 +98,39 @@ services:
       - -c
       - |
         source /opt/ros/noetic/setup.bash && \
+        cd /root/catkin_ws/src/test_pkg/scripts && \
+        chmod +x hello_transmitter.py && \
         cd /root/catkin_ws && \
+        source /opt/ros/noetic/setup.bash && \
         catkin_make && \
         source devel/setup.bash && \
-        roscore &  # Start ROS master in the background
-        rosrun test_pkg hello_transmitter.py
+        roslaunch test_pkg test_pkg_launchfile.launch
 ```
 
 What happens in the docker compose: 
 
 - Docker pulls the ros:noetic image publicly available on the docker hub.
 - the `src` folder available on the repo will be mounted in the catkin_ws available in the docker image.
-- We feed a sequence of command in the docker image. we source the setup.bash as usual, build the packages (I still have to figure out how to avoid this step every time) and we run the node.
+- We feed a sequence of command in the docker image as if we were running ros from an Ubuntu machine (it is still not clear to me how to avoid the catkin_make build everytime that the docker-compose starts).
+
+The easiest way that I could find to start the roscore and the node sequentially is to use a launch file (probably other ways exist but this looked like the easiest way to go).
+
+To launch the docker-compose, type in the `docker` directory:
+
+```
+docker-compose up
+```
+This should start the "hello world" node that keeps transmitting the same message over and over.
+If you want to visualize the debug output on the terminal, in a second terminal panel type
+```
+docker exec -it my_ros_container /bin/bas
+```
+This will access the running Docker container interactively via a bash shell.
+
+When done, type the following to close the container:
+```
+docker-compose down
+```
+
+
+
