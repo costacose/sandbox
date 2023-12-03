@@ -10,14 +10,11 @@ services:
       - /bin/bash
       - -c
       - |
-        echo ciaooooo1 && \
         source /opt/ros/noetic/setup.bash && \
         cd /root/catkin_ws/src/test_pkg/scripts && \
         chmod +x hello_transmitter.py && \
-        echo ciaoooooo2 && \
         cd /root/catkin_ws && \
         source /opt/ros/noetic/setup.bash && \
-        echo ciaoooooo3 && \
         catkin_make && \
         source devel/setup.bash && \
         roslaunch test_pkg test_pkg_launchfile.launch
