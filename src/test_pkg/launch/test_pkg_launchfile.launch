@@ -1,0 +1,13 @@
+<!-- your_launch_file.launch -->
+<launch>
+  <!-- Start roscore -->
+  <node name="roscore" pkg="ros" type="roscore" output="screen"/>
+
+  <!-- Wait for roscore to start before launching your node -->
+  <node pkg="rospy" type="wait_for_service.py" name="wait_for_roscore" output="screen">
+    <param name="service_name" value="/rosout"/>
+  </node>
+
+  <!-- Launch your ROS package node -->
+  <node name="hello_transmitter" pkg="test_pkg" type="hello_transmitter.py" output="screen"/>
+</launch>
