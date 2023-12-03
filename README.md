@@ -1,4 +1,7 @@
-How to work on ROS on my macbook via Docker Compose.
+# Learning how to use Docker
+
+## This example shows how to use ROS noetic via Docker Compose (OS agnostic)
+
 
 Step1:
 Structure the repo as in the following:
