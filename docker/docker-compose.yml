@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  ros_container:
+  ros_container:  
     image: ros:noetic
     container_name: my_ros_container
     volumes:
@@ -20,6 +20,5 @@ services:
         echo ciaoooooo3 && \
         catkin_make && \
         source devel/setup.bash && \
-        roscore #&  # Start ROS master in the background
-        #rosrun test_pkg hello_transmitter.py
+        roslaunch test_pkg test_pkg_launchfile.launch
 
